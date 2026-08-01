@@ -1,0 +1,160 @@
+/* ===========================
+   Responsive ทั้งระบบ
+=========================== */
+
+html,
+body,
+#root{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+.card{
+    border-radius:18px;
+}
+
+.btn{
+    border-radius:12px;
+}
+
+input,
+select,
+textarea{
+    min-height:45px;
+}
+
+/* Tablet */
+
+@media (max-width:992px){
+
+.sidebar{
+    width:80px !important;
+}
+
+.sidebar .menu-text{
+    display:none;
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+.sidebar{
+
+    position:fixed;
+
+    left:-250px;
+
+    top:0;
+
+    width:250px;
+
+    height:100vh;
+
+    z-index:2000;
+
+    transition:.3s;
+
+}
+
+.sidebar.active{
+
+    left:0;
+
+}
+
+.main-content{
+
+    width:100%;
+
+    margin-left:0;
+
+}
+
+.table{
+
+    font-size:12px;
+
+}
+
+.modal-dialog{
+
+    margin:10px;
+
+}
+
+.card{
+
+    padding:15px!important;
+
+}
+
+.row>[class*=col]{
+
+    margin-bottom:15px;
+
+}
+
+}
+
+/* มือถือเล็ก */
+
+@media (max-width:576px){
+
+h1{
+
+font-size:22px;
+
+}
+
+h2{
+
+font-size:20px;
+
+}
+
+h3{
+
+font-size:18px;
+
+}
+
+h4{
+
+font-size:16px;
+
+}
+
+.table{
+
+font-size:11px;
+
+}
+
+.btn{
+
+width:100%;
+
+margin-bottom:8px;
+
+}
+
+.form-control{
+
+font-size:14px;
+
+}
+
+}

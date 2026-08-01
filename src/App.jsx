@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { io } from 'socket.io-client';
+import "./responsive.css";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -115,7 +117,7 @@ const UserStatusHeader = ({
         </div>
         
         {showNotif && (
-          <div className="popup-animate position-absolute end-0 mt-2 bg-white shadow-lg border rounded-3 p-0" style={{ zIndex: 1100, width: '350px', overflow: 'hidden' }}>
+          <div className="popup-animate position-absolute end-0 mt-2 bg-white shadow-lg border rounded-3 p-0" style={{ zIndex: 1100, width: '95vw',maxWidth:'350px', overflow: 'hidden' }}>
             <div className="p-2 px-3 border-bottom bg-primary bg-opacity-10 fw-bold small text-dark d-flex justify-content-between align-items-center">
               <span>{currentUserRole === 'admin' ? '📩 รายการงานแจ้งซ่อมใหม่' : '🔔 แจ้งเตือนสถานะงานซ่อม'}</span>
               <span className="badge bg-primary">{newTickets.length}</span>
@@ -420,7 +422,7 @@ const LoginPage = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   return (
     <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundImage: "url('/pool.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
-      <div className="p-5 rounded-4 shadow text-center" style={{ width: '350px', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}>
+      <div className="p-5 rounded-4 shadow text-center" style={{ width:'100%',maxWidth:'400px', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}>
         <img src="/logo.png" alt="Logo" style={{ width: "120px", marginBottom: "15px" }} />
         <h3 className="fw-bold mb-1" style={{ color: "#8B6B2E" }}>Muang Samui Group</h3>
         <p style={{ color: "#666", fontSize: "14px" }}>Hotel Maintenance System</p>
@@ -549,7 +551,7 @@ function App() {
     id: "U001",
     name: "Apichart Klaiboonnan",
     username: "admin",
-    password: "admin123",
+    password:"123456",
     role: "admin",
     department: "IT"
   },
@@ -557,7 +559,7 @@ function App() {
     id: "U002",
     name: "Thadarat Chochai",
     username: "thadarat",
-    password: "123",
+    password:"123456",
     role: "reporter",
     department: "Front Office"
   },
@@ -565,7 +567,7 @@ function App() {
     id: "U003",
     name: "Anuwat Promsri",
     username: "anuwat",
-    password: "123",
+    password:"123456",
     role: "technician",
     department: "Maintenance"
   }
@@ -644,7 +646,7 @@ function App() {
         <div className="row g-0 h-100">
           
           {/* 📌 แถบเมนูด้านซ้าย (Sidebar) ล็อกตายตัวไม่ขยับ */}
-          <div className="col-md-2 d-flex flex-column p-4 h-100 shadow-lg no-print" style={{ backgroundColor: '#020c1b', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="col-lg-2 col-md-3 col-12 d-flex flex-column p-4 h-100 shadow-lg no-print" style={{ backgroundColor: '#020c1b', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
             <div className="text-center mb-4 text-white">
               <img src="/logo.png" alt="Logo" style={{ width: "90px", marginBottom: "10px" }} />
               <div className={`badge ${isAdmin ? 'bg-danger':'bg-primary'} px-3 py-1 rounded-pill mb-2`}>{isAdmin ? 'ADMIN MODE':'USER MODE'}</div>
@@ -682,7 +684,7 @@ function App() {
           </div>
 
           {/* 📝 ส่วนเนื้อหาขวาแปรผันตามหน้า */}
-          <div className="col-md-10 p-4 h-100 d-flex flex-column overflow-hidden">
+          <div className="col-lg-10 col-md-9 col-12 p-4 h-100 d-flex flex-column overflow-hidden">
             <UserStatusHeader setCurrentView={changeView} tickets={tickets} setTickets={setTickets} {...props} />
             <div className="flex-grow-1 overflow-auto custom-scrollbar p-1">
               {children}
@@ -892,7 +894,7 @@ function App() {
         {/* 📸 MODAL แสดงรูปภาพ */}
         {selectedImage && (
           <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
-            <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-dialog modal-dialog-centered modal-fullscreen-sm-down-centered">
               <div className="modal-content border-0 rounded-4 shadow-lg">
                 <div className="modal-header border-0 pb-0 justify-content-between align-items-center mt-2 px-3">
                   <h6 className="modal-title fw-bold text-dark">📷 ภาพถ่ายสถานการณ์จริง</h6>
@@ -1015,12 +1017,12 @@ function App() {
           
           <form onSubmit={handleFormSubmit}>
             <div className="row g-4">
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>สถานที่</label>
                 <input type="text" className="form-control text-center border-danger-subtle" style={{ borderRadius: '8px' }} placeholder="ระบุสถานที่เกิดเหตุ" value={formData.location} onChange={e=>setFormData({...formData, location:e.target.value})} />
               </div>
               
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>แผนก</label>
                 <select className="form-select border-danger-subtle" style={{ borderRadius: '8px' }} value={formData.dept} onChange={e => setFormData({...formData, dept: e.target.value})}>
                   <option value="">เลือกแผนก...</option>
@@ -1041,12 +1043,12 @@ function App() {
                 </select>
               </div>
               
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>Room Number</label>
                 <input type="text" className="form-control text-center border-danger-subtle" style={{ borderRadius: '8px' }} placeholder="ระบุหมายเลขห้อง (ถ้ามี)" value={formData.room} onChange={e=>setFormData({...formData, room:e.target.value})} />
               </div>
               
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>ความสำคัญ</label>
                 <select className="form-select border-danger-subtle" style={{ borderRadius: '8px' }} value={formData.priority} onChange={e=>setFormData({...formData, priority:e.target.value})}>
                   <option value="">เลือกความสำคัญ...</option>
@@ -1056,7 +1058,7 @@ function App() {
                 </select>
               </div>
               
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>Type Order</label>
                 <input 
                   className="form-control border-danger-subtle" 
@@ -1081,7 +1083,7 @@ function App() {
                 </datalist>
               </div>
               
-              <div className="col-md-4 text-center">
+              <div className="col-lg-4 col-md-6 col-12 text-center">
                 <label className="fw-bold mb-2" style={{ color: '#d93838' }}>ปัญหาที่แจ้ง</label>
                 <input type="text" className="form-control border-danger-subtle" style={{ borderRadius: '8px' }} placeholder="ระบุอาการเสียที่พบ..." value={formData.problem} onChange={e=>setFormData({...formData, problem:e.target.value})} />
               </div>
@@ -1129,7 +1131,7 @@ function App() {
               <button className="btn btn-sm btn-outline-primary rounded-pill mt-2 px-3" onClick={() => setCurrentView('userTechSummary')}>📊 ไปหน้าผลคะแนนทีมช่าง</button>
             </div>
           ) : (
-            <div className="row g-3">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
               {unratedTickets.map(t => (
                 <div key={t.id} className="col-md-6 col-lg-4">
                   <div className="p-3 border rounded-3 bg-light shadow-sm">
@@ -1193,7 +1195,7 @@ function App() {
           <h4 className="fw-bold mb-2 border-bottom pb-2 text-center text-primary">📊 อันดับเรตติ้งความพึงพอใจของทีมช่าง</h4>
           <p className="text-center text-muted small mb-4">💡 แตะที่การ์ดของช่างแต่ละคน เพื่อเปิดดูประวัติงานและวิเคราะห์ผลงานซ่อมทั้งหมดได้</p>
           
-          <div className="row g-3">
+          <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
             {techData.map((tech, i) => (
               <div className="col-md-4" key={i}>
                 <div 
@@ -1434,7 +1436,7 @@ function App() {
         {/* Pop-up การจัดการและอัปเดตงานซ่อม */}
         {managingTicket && (
           <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1050 }}>
-            <div className="modal-dialog modal-md modal-dialog-centered">
+            <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-md modal-dialog modal-dialog-centered modal-fullscreen-sm-down-centered">
               <div className="modal-content text-dark border-0 shadow rounded-4">
                 <div className="modal-header bg-dark text-white rounded-top-4">
                   <h5 className="modal-title fw-bold">⚙️ จัดการเคสซ่อม: {managingTicket.id}</h5>
@@ -1642,6 +1644,7 @@ function App() {
                         <th>รหัส</th>
                         <th>ชื่อ-นามสกุล</th>
                         <th>Username</th>
+                        <th>Password</th>
                         <th>ตำแหน่ง</th>
                         <th>แผนก</th>
                         <th>สถานะ</th>
@@ -1654,6 +1657,7 @@ function App() {
                           <td>{u.id}</td>
                           <td className="text-start"><b>{u.name}</b></td>
                           <td>{u.username}</td>
+                          <td>{u.password}</td>
                           <td><span className="badge bg-danger">{u.role}</span></td>
                           <td>{u.department}</td>
                           <td><span className="badge bg-success">{u.status}</span></td>
@@ -1679,7 +1683,7 @@ function App() {
   const AdminTechSummary = () => (
     <MainSystemLayout activeMenu="adminTech" isAdmin={true}>
       <h3 className="text-white fw-bold mb-3">⭐ สรุปผลงานและคะแนนประเมินนายช่าง</h3>
-      <div className="row g-3">
+      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
         {getTechnicianStats().map((tech, i) => (
           <div key={i} className="col-md-4">
             <div className="card p-3 text-center border-0 rounded-3 shadow text-dark bg-white">
@@ -1972,7 +1976,7 @@ const AdminReports = ({ tickets = [] }) => { // ใส่ default value เผ�
             </select>
           </div>
 
-          <div className="row g-3">
+          <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
             {/* บล็อกย่อย 1 */}
             <div className="col-12 col-sm-6 col-xl-3 border-sm-end border-light">
               <div className="d-flex align-items-center gap-3 py-1">
