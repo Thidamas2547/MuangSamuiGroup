@@ -543,23 +543,6 @@ function App() {
 
   // เริ่มต้นตั๋วหลัก
   const [tickets, setTickets] = useState([]);
-  const newTicket = {
-
-    id: ticketNo,
-
-    room,
-
-    problem,
-
-    reporter: currentUser.username,
-
-    technician: "",
-
-    status: "Pending",
-
-    messages: []
-
-};
 
   const [users, setUsers] = useState([
   {
@@ -587,24 +570,6 @@ function App() {
     department: "Maintenance"
   }
 ]);
-
-const acceptTicket = (ticketId) => {
-
-  setTickets(prev =>
-    prev.map(ticket => {
-
-      if (ticket.id !== ticketId) return ticket;
-
-      return {
-        ...ticket,
-        technician: currentUser.username,
-        status: "WIP"
-      };
-
-    })
-  );
-
-};
 
   const handleLogin = (username, password) => {
 
@@ -655,7 +620,6 @@ const acceptTicket = (ticketId) => {
       }
     });
 
-
     return Object.values(stats).map(tech => {
       const avg = tech.ratedJobs > 0 ? (tech.totalScore / tech.ratedJobs).toFixed(1) : "0.0";
       return { 
@@ -669,31 +633,6 @@ const acceptTicket = (ticketId) => {
   const handleRateTechnician = (ticketId, score) => {
     setTickets(prev => prev.map(t => t.id === ticketId ? { ...t, rating: score } : t));
   };
-
-  const sendMessage = (ticketId, text) => {
-
-  setTickets(prev =>
-    prev.map(ticket => {
-
-      if (ticket.id !== ticketId) return ticket;
-
-      return {
-        ...ticket,
-        messages: [
-          ...(ticket.messages || []),
-          {
-            sender: currentUser.username,
-            text,
-            time: new Date().toLocaleString("th-TH")
-          }
-        ]
-      };
-
-    })
-  );
-
-};
-
 
   // 🌍 โครงสร้างเมนูหลักที่จะล็อกแถบซ้าย (Sidebar Layout) ไว้ตลอดทุกสถานการณ์
   const MainSystemLayout = ({ isAdmin = false, activeMenu, children, ...props }) => {
