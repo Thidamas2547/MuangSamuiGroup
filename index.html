@@ -1,63 +1,14 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hotel-helpdesk</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
-<!DOCTYPE html>
-<html>
 <head>
-    <title>Notification Test</title>
-    <style>
-        body { font-family: Arial; padding: 20px; display: flex; gap: 20px; }
-        .box { border: 2px solid #333; padding: 20px; width: 300px; border-radius: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Helpdesk</title>
 </head>
+
 <body>
-
-   
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        const userSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-        const adminSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3');
-
-        // ฝั่ง User ส่ง
-        function sendAlert() {
-            socket.emit('send_to_admin', { msg: "แจ้งปัญหาการใช้งาน!" });
-            document.getElementById('u-status').innerText = "ส่งแล้ว!";
-        }
-
-        // ฝั่ง Admin รับ
-        socket.on('receive_by_admin', (data) => {
-            adminSound.play();
-            document.getElementById('admin-logs').innerHTML = `
-                <p>จาก: ${data.id.substring(0,5)}... <br>ข้อความ: ${data.msg}</p>
-                <button onclick="reply('${data.id}')">กดตอบกลับ</button>
-            `;
-        });
-
-        // ฝั่ง User รับการตอบกลับ
-        socket.on('receive_by_user', (data) => {
-            userSound.play();
-            alert("Admin ตอบว่า: " + data.msg);
-        });
-
-        function reply(userId) {
-            socket.emit('reply_to_user', { targetId: userId, msg: "รับทราบครับ!" });
-        }
-    </script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-/>

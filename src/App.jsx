@@ -529,6 +529,8 @@ const DeskSelectionLanding = ({ onSelectDesk = () => {} }) => {
   );
 };
 
+const socket = io("http://localhost:5000");
+
 // ==========================================
 // 🚀 MAIN APPLICATION COMPONENT
 // ==========================================
