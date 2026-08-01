@@ -1647,7 +1647,6 @@ function App() {
                         <th>Password</th>
                         <th>ตำแหน่ง</th>
                         <th>แผนก</th>
-                        <th>สถานะ</th>
                         <th>จัดการ</th>
                       </tr>
                     </thead>
@@ -1660,7 +1659,6 @@ function App() {
                           <td>{u.password}</td>
                           <td><span className="badge bg-danger">{u.role}</span></td>
                           <td>{u.department}</td>
-                          <td><span className="badge bg-success">{u.status}</span></td>
                           <td>
                             <div className="d-flex gap-1 justify-content-center">
                               <button className="btn btn-sm btn-outline-warning rounded-pill" onClick={() => handleEditClick(u)}>✏️ แก้ไข</button>
