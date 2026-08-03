@@ -18,8 +18,8 @@ import { Doughnut, Bar } from 'react-chartjs-2';
 
 // ลงทะเบียน ChartJS ไว้ใช้งานตามโครงสร้างเดิมของคุณ
 ChartJS.register(
-  ArcElement, BarElement, CategoryScale, 
-  LinearScale, PointElement, LineElement, 
+  ArcElement, BarElement, CategoryScale,
+  LinearScale, PointElement, LineElement,
   Tooltip, Legend
 );
 
@@ -70,26 +70,25 @@ const UserStatusHeader = ({
   const handleUpdateTicketAction = (ticketId, updatedData) => {
     // 🔄 อัปเดตตั๋วหลักในตัวระบบแอปพลิเคชัน (ถ้ามีฟังก์ชัน setTickets ส่งมาทาง Props)
     if (typeof setTickets === 'function') {
-      setTickets(prevTickets => {
-        const isExist = prevTickets.some(t => t.id === ticketId);
-        if (isExist) {
-          return prevTickets.map(t => t.id === ticketId ? { ...t, ...updatedData } : t);
-        }
-        return [updatedData, ...prevTickets];
-      });
-    }
-
-    // 🔄 อัปเดตรายการที่อยู่ในกระดิ่งแจ้งเตือน
-    setNewTickets(prevNew => {
-      if (currentUserRole === 'admin') {
-        // ฝั่งช่าง: ถ้ารับงานแล้ว ให้ดึงงานนั้นออกจากกล่อง "งานใหม่ที่รอดำเนินการ"
-        return prevNew.filter(t => t.id !== ticketId);
-      } else {
-        // ฝั่งผู้รับบริการ (User): ให้คงตั๋วไว้ในกระดิ่ง แต่เปลี่ยนสถานะให้เห็นว่าช่างรับเรื่องแล้ว
-        return prevNew.map(t => t.id === ticketId ? { ...t, ...updatedData } : t);
+      const handleUpdateTicketAction = (ticketId, updatedData) => {
+  if (typeof setTickets === 'function') {
+    setTickets(prevTickets => {
+      const isExist = prevTickets.some(t => t.id === ticketId);
+      if (isExist) {
+        return prevTickets.map(t => t.id === ticketId ? { ...t, ...updatedData } : t);
       }
+      return [updatedData, ...prevTickets];
     });
-  };
+  }
+
+  setNewTickets(prevNew => {
+    if (currentUserRole === 'admin') {
+      return prevNew.filter(t => t.id !== ticketId);
+    } else {
+      return prevNew.map(t => t.id === ticketId ? { ...t, ...updatedData } : t);
+    }
+  });
+};
 
   const handleSaveProfile = () => {
     setProfile(tempProfile);
@@ -964,7 +963,7 @@ function App() {
   // =========================================================================
   // 📝 2. Component หน้าฟอร์มบันทึกรายการแจ้งซ่อมใหม่
   // =========================================================================
-  const UserFormView = () => {
+  const UserFormView = ({ tickets, setTickets, setCurrentView, selectedDesk }) => {
     const [formData, setFormData] = useState({ 
       location: '', 
       dept: '', 
@@ -1120,7 +1119,7 @@ function App() {
   // ==========================================
   // ⭐ 3. หน้าประเมินคะแนนความพึงพอใจ
   // ==========================================
-  const UserRatingView = () => {
+  const UserRatingView = ({ tickets, handleRateTechnician, setCurrentView }) => {
     const unratedTickets = tickets.filter(t => t.status === 'สำเร็จ' && !t.rating);
     
     return (
@@ -1317,7 +1316,7 @@ function App() {
   // =========================================================================
   // 🏢 VIEWS: ระบบของฝั่ง ADMIN หลังบ้าน (ปรับปรุงย้ายระบบค้นหามาไว้ที่นี่เรียบร้อย)
   // =========================================================================
-  const AdminDashboard = () => {
+  const AdminDashboard = ({ tickets, setTickets, selectedDesk, users }) => {
     const [managingTicket, setManagingTicket] = useState(null);
     const [repairForm, setRepairForm] = useState({ assignee: '', cost: 0, solution: '', image: '', status: '' });
 
@@ -2062,12 +2061,33 @@ const AdminReports = ({ tickets = [] }) => { // ใส่ default value เผ�
 
       {/* กลุ่มหน้าจอฝั่ง User */}
       {currentView === 'dashboard' && <UserDashboardMain tickets={tickets} setTickets={setTickets} setCurrentView={setCurrentView} selectedDesk={selectedDesk} />}
-      {currentView === 'userForm' && <UserFormView />}
-      {currentView === 'userRatings' && <UserRatingView />}
-      {currentView === 'userTechSummary' && <UserTechSummary />}
-
+      {currentView === 'userForm' && (
+        <UserFormView 
+          tickets={tickets} 
+          setTickets={setTickets} 
+          setCurrentView={setCurrentView} 
+          selectedDesk={selectedDesk} 
+        />
+      )}
+      {currentView === 'userRatings' && (
+      <UserRatingView 
+        tickets={tickets} 
+        handleRateTechnician={handleRateTechnician} 
+        setCurrentView={setCurrentView} 
+      />
+    )}
+      {currentView === 'userTechSummary' && (
+        <UserTechSummary tickets={tickets} getTechnicianStats={getTechnicianStats} />
+      )}
       {/* กลุ่มหน้าจอฝั่ง Admin */}
-      {currentView === 'adminDashboard' && <AdminDashboard />}
+      {currentView === 'adminDashboard' && (
+        <AdminDashboard 
+          tickets={tickets} 
+          setTickets={setTickets} 
+          selectedDesk={selectedDesk} 
+          users={users} 
+        />
+      )}
       {currentView === 'adminUsers' && <AdminUsers users={users} setUsers={setUsers} />}
       {currentView === 'adminTechSummary' && <AdminTechSummary />}
       {currentView === 'adminReports' && <AdminReports />}

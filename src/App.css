@@ -198,3 +198,25 @@ body{
     background-repeat:no-repeat;
     overflow:hidden;
 }
+
+/* 1. กำหนดขนาด Sidebar ให้คงที่เสมอ ไม่ขยายเต็มจอในมือถือ */
+.sidebar {
+  width: 260px !important; /* ปรับขนาดความกว้าง Sidebar ตามจริง */
+  min-width: 260px !important;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* 2. ดันส่วนเนื้อหาหลัก (Main Content) ให้อยู่ข้างๆ Sidebar */
+.main-content, .content {
+  margin-left: 260px !important; /* ต้องเท่ากับความกว้าง Sidebar */
+  width: calc(100% - 260px) !important;
+  min-width: 800px; /* เพื่อไม่ให้เนื้อหาด้านในบีบอัดจนเละ สามารถใช้นิ้วปัดเลื่อนแนวนอนดูได้ */
+}
+
+/* 3. อนุญาตให้หน้าจอโทรศัพท์ปัดเลื่อนซ้าย-ขวา (Horizontal Scroll) ได้ */
+body, html {
+  overflow-x: auto !important;
+}

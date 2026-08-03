@@ -3,8 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=1280, initial-scale=0.3">
   <title>Hotel Helpdesk</title>
+
+  <style>
+    /* บังคับขนาดหน้าจอให้เท่าจอคอมพิวเตอร์ และรองรับการปัดหน้าจอซ้าย-ขวาในมือถือ */
+    html, body {
+      min-width: 1280px !important;
+      width: 1280px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #root {
+      width: 100%;
+      min-width: 1280px;
+    }
+  </style>
 </head>
 
 <body>
